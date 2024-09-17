@@ -537,13 +537,13 @@ tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL){
 }
 
 
-file_test<-"J:/Work/Garmisch-Paper/R-Proj/GAP_paper2023/Datalogger/dummy data/data_95225756_2023_06_27_9999.csv"
+file_test<-"..."
 test<-tomst_snow(file_test, plot = T)
 tomst_snow_plot_sep(overview = test$output1, daily_averages = test$output2, selection = c(1,3,5))
 
 test_out1<-test$output1
 test_out2<-test$output2
 
-supp_test<-"J:/Work/Garmisch-Paper/R-Proj/GAP_paper2023/Datalogger/dummy data/Logger_table_23.csv"
+supp_test<-"..."
 
 temp_prep(file_test, ID_directory = supp_test)

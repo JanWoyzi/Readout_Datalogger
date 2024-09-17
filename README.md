@@ -165,9 +165,9 @@ tomst_snow_plot(overview, daily_averages)
 
 _…plotting all data for all existing winters in the data frame._
 
-> **overview:** (_data frame_) from snow_seq()
+> **overview:** (_data frame_) from tomst_snow()
 
-> **daily_averages:** (_data frame_) from snow_seq()
+> **daily_averages:** (_data frame_) from tomst_snow()
 
 </details>
 
@@ -179,9 +179,9 @@ tomst_snow_plot_sep(overview, daily_averages, selection = NULL)
 
 _…plotting all data for each winter with the optional selection of only specific winters according to the column “Winter_id” and the parameter “selection.”_
 
-> **overview:** (_data frame_) from snow_seq()
+> **overview:** (_data frame_) from tomst_snow()
 
-> **daily_averages:** (_data frame_) from snow_seq()
+> **daily_averages:** (_data frame_) from tomst_snow()
 
 > **selection:** (_list of integers_) The default is NULL; all winters will be plotted.
 

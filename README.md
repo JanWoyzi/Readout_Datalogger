@@ -20,8 +20,8 @@ tomst_snow(directory, ID_directory = NULL, upper_temp = 2, lower_temp = -.5,
 ```
 
 _…read out TOMST data loggers, formating date system and temperature units, creating two data frames:_
-- _output1:_
-- _output2:_
+- _output1: a reduced data frame giving an overview of the snow period and snow conditions (in absolut and relativ amounts) per unique data logger and winter_
+- _output2: detailed data frame with all environmental data points per day and further calculations (i.e. fluctuations)_
   
 _establish snow period and daily snow conditions per winter, plot result in one graph._
 
@@ -176,5 +176,6 @@ _…plotting all data for each winter with the optional selection of only specif
 ## How to use
 
 ```R
-
+tomst_raw<-"path to file..."
+res<-tomst_snow(tomst_raw, plot = T)
 ```

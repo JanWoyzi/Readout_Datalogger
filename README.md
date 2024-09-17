@@ -1,4 +1,7 @@
 # Readout_Dattalogger
+<details>
+	
+<summary> Version used: </summary> 
 
 R (4.3.0, 2023-04-21)
 
@@ -9,6 +12,15 @@ Packages needed:
 - ggnewscale: (0.4.9)
 - dplyr: (1.1.2)
 - glue: (1.6.2)
+</details>
+
+## Paper reference
+
+todo! link
+
+# Description:
+
+todo! Introduction text with plot
 
 ## Main function:
 
@@ -187,14 +199,16 @@ res_out1<-res$output1
 res_out2<-res$output2
 ```
 
-### Plot all winters together:
+Plot all winters together:
 
 ```R
 tomst_snow_plot(overview = res$output1, daily_averages = res$output2)
 ```
+todo! add plot
 
-### Plot selected winters separated:
+Plot selected winters separated:
 
 ```R
 tomst_snow_plot_sep(overview = res$output1, daily_averages = res$output2, selection = c(1,3,5))
 ```
+todo! add plot

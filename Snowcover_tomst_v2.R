@@ -535,15 +535,3 @@ tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL){
     print(g)
   }
 }
-
-
-file_test<-"..."
-test<-tomst_snow(file_test, plot = T)
-tomst_snow_plot_sep(overview = test$output1, daily_averages = test$output2, selection = c(1,3,5))
-
-test_out1<-test$output1
-test_out2<-test$output2
-
-supp_test<-"..."
-
-temp_prep(file_test, ID_directory = supp_test)

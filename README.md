@@ -176,6 +176,25 @@ _…plotting all data for each winter with the optional selection of only specif
 ## How to use
 
 ```R
+# define location to raw data:
 tomst_raw<-"path to file..."
+
+# use the main function to generate the two analyzed data frames, with default settings:
 res<-tomst_snow(tomst_raw, plot = T)
+
+# call of the two data frames:
+res_out1<-res$output1
+res_out2<-res$output2
+```
+
+### Plot all winters together:
+
+```R
+tomst_snow_plot(overview = res$output1, daily_averages = res$output2)
+```
+
+### Plot selected winters separated:
+
+```R
+tomst_snow_plot_sep(overview = res$output1, daily_averages = res$output2, selection = c(1,3,5))
 ```

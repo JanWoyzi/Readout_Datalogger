@@ -1,4 +1,4 @@
-# Readout_Dattalogger
+# Readout_Datalogger
 <details>
 	
 <summary> Version used: </summary> 
@@ -16,7 +16,29 @@ Packages needed:
 
 ## Paper reference
 
-todo! link
+**Using barcoding to reveal ecological patterns of nivicolous myxomycetes in the German Alps: 
+How do they deal with varying snow conditions?**
+
+Maho Inoue<sup>a,*</sup>, Jan Woyzichovski<sup>a</sup>, Ángela López-Villalba<sup>a</sup>, Oleg Shchepin<sup>a,b</sup>, Anja Klahr<sup>a</sup>, Yuri K. Novozhilov<sup>b</sup>, Martin Schnittler<sup>a</sup>
+
+<sup>*</sup>
+	Corresponding author
+
+<sup>a</sup>
+	Institute of Botany and Landscape Ecology, University Greifswald, Greifswald, Germany
+ 
+<sup>b</sup>
+	V.L. Komarov Botanical Institute of the Russian Academy of Sciences, St. Petersburg, Russia
+
+*Received 6 March 2024, Revised 1 July 2024, Accepted 9 July 2024, Available online 16 July 2024, Version of Record 16 July 2024.*
+
+published in: Fungal Ecology, Volume 71, 2024, 101374, ISSN 1754-5048
+
+DOI: [https://doi.org/10.1016/j.funeco.2024.101374](https://doi.org/10.1016/j.funeco.2024.101374)
+
+### Abstract
+
+A transect in the German limestone Alps was monitored over ten years for nivicolous myxomycetes to test if species display stable altitudinal belts for fruiting. The data set comprised 1368 barcoded specimens assigned to 112 ribotypes forming 51 ribogroups. Ribogroups were largely consistent with 35 identified morphospecies, although in eleven cases a morphospecies included several ribogroups. Fructification abundance correlated with duration of the snow cover inferred from data loggers placed at ground height. Morphospecies, ribogroups, and ribotypes showed a peak of fructification abundance at different elevations in different years. Species composition, not abundances, showed a high overlap with soil metabarcoding data. Thirteen ribogroups detected in the metabarcoding data set were never found as fructifications. This survey demonstrates that nivicolous myxomycetes are opportunists, which are likely to persist as trophic or resting stages independent from snow cover, but fruit only in altitudes and years with snow cover stable over several months.
 
 # Description:
 
@@ -206,9 +228,21 @@ tomst_snow_plot(overview = res$output1, daily_averages = res$output2)
 ```
 todo! add plot
 
+<details>
+<summary>
+plot
+</summary>
+</details>
+
 Plot selected winters separated:
 
 ```R
 tomst_snow_plot_sep(overview = res$output1, daily_averages = res$output2, selection = c(1,3,5))
 ```
 todo! add plot
+
+<details>
+<summary>
+plot
+</summary>
+</details>

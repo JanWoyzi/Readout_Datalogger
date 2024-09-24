@@ -44,7 +44,7 @@ DOI: [https://doi.org/10.1016/j.funeco.2024.101374](https://doi.org/10.1016/j.fu
 
 A transect in the German limestone Alps was monitored over ten years for nivicolous myxomycetes to test if species display stable altitudinal belts for fruiting. The data set comprised 1368 barcoded specimens assigned to 112 ribotypes forming 51 ribogroups. Ribogroups were largely consistent with 35 identified morphospecies, although in eleven cases a morphospecies included several ribogroups. Fructification abundance correlated with duration of the snow cover inferred from data loggers placed at ground height. Morphospecies, ribogroups, and ribotypes showed a peak of fructification abundance at different elevations in different years. Species composition, not abundances, showed a high overlap with soil metabarcoding data. Thirteen ribogroups detected in the metabarcoding data set were never found as fructifications. This survey demonstrates that nivicolous myxomycetes are opportunists, which are likely to persist as trophic or resting stages independent from snow cover, but fruit only in altitudes and years with snow cover stable over several months.
 
-# Description:
+# Purpose:
 
 These two scripts were used in the above-mentioned article to read out the data logger’s raw files and to make a standardized preliminary analysis of the environmental data to predict the winter season and the snow conditions of each day based on the temperature readings and its daily fluctuation. 
 The snow conditions are categorized in:
@@ -83,9 +83,50 @@ _establish snow period and daily snow conditions per winter, plot result in one 
 
 <details>
 <summary>Function parameter description:</summary>
-	asd
-	asf
-	saf
+
+> **directory:** (_string of characters_) path to .csv-file
+
+> **ID_directory:** (_string of characters_) path to supplementary .csv-file. The default is NULL; it will not be used if set to NULL.
+> 	A separate .csv file from the .csv file containing the environment data can be provided to extract the cover label and/or an alternative
+> 	label name. The unique ID (serial number on the data logger) has to be provided in this supplementary file to assign the correct cover and/or label names.
+> 	Header structure of .csv file: ID, Cover, Logger_Nr. (order is irrelevant)
+
+> **upper_temp:** (_float_) Defines the highest temperature limit to determine suitable conditions. The default is 2 °C.
+
+> **lower_temp:** (_float_) Defines the lowest temperature limit to determine suitable conditions. The default is -.5 °C.
+
+> **fluct_temp:** (_float_) Defines the absolute temperature deviation limit to determine suitable conditions. The default is 3 °C.
+
+> **fluct_para:** (_string of characters_) determining which deviation formula should be used:
+> - standard deviation (“sd”),
+> - variance (“var”),
+> - the maximum difference from the mean (“p2x”),
+> - the difference between maximum and minimum reached value (“p2p”),
+> - the sum of difference to mean (“sd2x”),
+> - the sum of difference to zero degree celsius (“sd2z”),
+> - or all of the above (“all”).
+
+> **onset_days:** (_integer_) defines the starting condition when the snow season starts (first period of n or more consecutive “green” days). Shorter periods that get > interupted by other categories will be then ignored. The default is 5 days.
+
+> **fahrenheit:** (_boolean_) an internal function that converts given data from Fahrenheit to Celsius. The default is FALSE.
+
+> **skip:** (_integer_) defines how many top rows in the .csv file should be ignored.  The default is 0.
+
+> **cut_month:** (_integer_) separator to determine each year's winter season. The default is 8, with the first day in August the next winter starts.
+
+> **header:** (_boolean_) Whether the first row is used for setting the column titles. The default is TRUE.
+
+> **sep_data:** (_string of characters_) separation character to be used during reading in the .csv file. The default is ”;”.
+
+> **sep_ID:** (_string of characters_) separation character to be used during reading in the supplementary .csv file. The default is “,”.
+
+> **cover:** (_string of characters_) information on whether the logger was placed covered by trees or shrubs (close) or openly without any obstructions above it (open). The default is NULL; it will not be used if set to NULL. 
+
+> **Nr_label:** (_string of characters_) The default is NULL; it will not be used if set to NULL. An alternative form to assign the data to a unique name.
+
+> **plot:** (_boolean_) Whether at the end of caculations a plot over all winters within the main file should be plotted. The default is FALSE.
+
+
 </details>
 
 <details>
@@ -218,7 +259,7 @@ _…determines the snow period by the first days of suitable days longer than �
 
 > **daily_averages:** (_data frame_) from avg_minmax()
 
-> **onset_days:** (_integer_) The default is 5 days.
+> **onset_days:** (_integer_) defines the starting condition when the snow season starts (first period of n or more consecutive “green” days). Shorter periods that get > interupted by other categories will be then ignored. The default is 5 days.
 
 ```R
 tomst_snow_plot(overview, daily_averages)

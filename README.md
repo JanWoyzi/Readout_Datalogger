@@ -21,6 +21,9 @@ How do they deal with varying snow conditions?**
 
 Maho Inoue<sup>a,*</sup>, Jan Woyzichovski<sup>a</sup>, Ángela López-Villalba<sup>a</sup>, Oleg Shchepin<sup>a,b</sup>, Anja Klahr<sup>a</sup>, Yuri K. Novozhilov<sup>b</sup>, Martin Schnittler<sup>a</sup>
 
+<details>
+<summary>Further details: </summary>
+
 <sup>*</sup>
 	Corresponding author
 
@@ -33,6 +36,7 @@ Maho Inoue<sup>a,*</sup>, Jan Woyzichovski<sup>a</sup>, Ángela López-Villalba<
 *Received 6 March 2024, Revised 1 July 2024, Accepted 9 July 2024, Available online 16 July 2024, Version of Record 16 July 2024.*
 
 published in: Fungal Ecology, Volume 71, 2024, 101374, ISSN 1754-5048
+</details>
 
 DOI: [https://doi.org/10.1016/j.funeco.2024.101374](https://doi.org/10.1016/j.funeco.2024.101374)
 
@@ -42,7 +46,25 @@ A transect in the German limestone Alps was monitored over ten years for nivicol
 
 # Description:
 
-todo! Introduction text with plot
+These two scripts were used in the above-mentioned article to read out the data logger’s raw files and to make a standardized preliminary analysis of the environmental data to predict the winter season and the snow conditions of each day based on the temperature readings and its daily fluctuation. 
+The snow conditions are categorized in:
+-	Green: days with mean temperature between −0.5 °C `lower_temp` and 2 °C `upper_temp`and daily fluctuations below 3 °C `fluct_temp`, indicating the presence of a closed snow cover which fosters growth of microbial communities and myxamoebal activity (Schmidt and Lipson, 2004; Schnittler et al., 2015).
+-	Yellow: days with a mean temperature above 2 °C `upper_temp` or daily fluctuations exceeding 3 °C `fluct_temp`, indicating exposure to wind and sun radiation without snow cover.
+-	Red: days with mean temperature below −0.5 °C  `lower_temp`, which is potentially harmful for myxamoebae due to soil frost (Shchepin et al., 2014), but they can survive these days in encysted state, if temperatures do not decrease too fast.
+  
+The snow season (grey-blue bar) is defined by a starting condition (first period of four or more consecutive “green” days, `onset_days`) and an ending condition (the last “green” or “red” day of this winter before August  `cut_month`.
+
+All the resulting statistics are limited within the snow season. Information outside of the snow seasons are excluded from the output tables.
+The TOMST TMS-4 data loggers provide three temperatures and one moisture read-outs (Hobo data logger provide only one temperature and one relative humidity read-out.). The temperature sensors are vertically separated by around 10 cm. By the placement instruction from the company the middle one is at surface level. Because of these numerous sensors the resulting output tables contain all 4 read-outs (or only 2 by HOBO loggers) as well as all calculations for each sensor separated in different columns and labeled accordingly to their respective sensors.
+
+Because different data loggers separated their data differently, the here presented scripts are separated depending on which data logger type was used by our group: 
+-	1st generation loggers:
+	-	HOBO U23 Pro v2 Temperature / Relative Humidity Data Logger (U23-001A) 
+	-->	`Snowcover_hobo.R`
+-	2nd generation loggers:  
+	-	TOMST TMS-4 Extreme 
+	--> 	`Snowcover_tomst_v2.R`
+
 
 ## Main function:
 
@@ -53,11 +75,11 @@ tomst_snow(directory, ID_directory = NULL, upper_temp = 2, lower_temp = -.5,
 	Nr_label = NULL, plot = FALSE)
 ```
 
-_…read out TOMST data loggers, formating date system and temperature units, creating two data frames:_
+_…read out data loggers, formating date system and temperature units, creating two data frames:_
 - _output1: a reduced data frame giving an overview of the snow period and snow conditions (in absolut and relativ amounts) per unique data logger and winter_
 - _output2: detailed data frame with all environmental data points per day and further calculations (i.e. fluctuations)_
   
-_establish snow period and daily snow conditions per winter, plot result in one graph._
+_establish snow period and daily snow conditions per winter, plot result in one graph `plot = T`._
 
 
 <details>
@@ -199,7 +221,7 @@ _…plotting all data for all existing winters in the data frame._
 tomst_snow_plot_sep(overview, daily_averages, selection = NULL)
 ```
 
-_…plotting all data for each winter with the optional selection of only specific winters according to the column “Winter_id” and the parameter “selection.”_
+_…plotting all data for each winter with the optional selection of only specific winters according to the column “Winter_id” and the parameter `selection`_
 
 > **overview:** (_data frame_) from tomst_snow()
 
@@ -213,12 +235,12 @@ _…plotting all data for each winter with the optional selection of only specif
 # define location to raw data:
 tomst_raw<-"path to file..."
 
-# use the main function to generate the two analyzed data frames, with default settings:
+# use the main function to generate the two analyzed data frames, with default settings (except "plot"):
 res<-tomst_snow(tomst_raw, plot = T)
 
-# call of the two data frames:
-res_out1<-res$output1
-res_out2<-res$output2
+# access the two data frames:
+res$output1
+res$output2
 ```
 
 Plot all winters together:

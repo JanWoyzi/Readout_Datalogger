@@ -133,8 +133,12 @@ _establish snow period and daily snow conditions per winter, plot result in one 
 <summary>Output description:</summary>
 	
 #### Output1:
- 
+Per temperature sensor n columns will be generated.
+
+
 #### Output2:
+Per temperature sensor n columns will be generated.
+
 
 </details>
 
@@ -142,7 +146,7 @@ _establish snow period and daily snow conditions per winter, plot result in one 
 	
 <summary>Internal function structure:</summary>
 
-These are the internal function that the main function uses to analyze the raw files and generate the two output data frames. The internal function are used in order  of appearance.
+These are the internal functions that the main function uses to analyze the raw files and generate the two output data frames. The internal function are used in order  of appearance.
 
 ```R
 temp-prep(directory, ID_directory = NULL, sep_ID = ",", cover = NULL, Nr_label = NULL)

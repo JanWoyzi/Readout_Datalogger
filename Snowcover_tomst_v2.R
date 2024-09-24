@@ -299,7 +299,7 @@ snow_seq <- function(data, temp, daily_averages, onset_days = 5){
         # the first days of snow cover that sustain more than onset_days days
         index_first_snow_varname <- paste0("index_first_snow_", i)
         assign(index_first_snow_varname, which(get(snow_cover_sequence_varname)$values != "no_snow" & 
-                                                 get(snow_cover_sequence_varname)$lengths > onset_days)[1])
+                                                 get(snow_cover_sequence_varname)$lengths >= onset_days)[1])
         
         # the last snow cover within the winter period decided by suitable_condition and unsuitable_condition
         index_last_snow_varname <- paste0("index_last_snow_", i)

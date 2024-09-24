@@ -48,11 +48,11 @@ A transect in the German limestone Alps was monitored over ten years for nivicol
 
 These two scripts were used in the above-mentioned article to read out the data logger’s raw files and to make a standardized preliminary analysis of the environmental data to predict the winter season and the snow conditions of each day based on the temperature readings and its daily fluctuation. 
 The snow conditions are categorized in:
--	Green: days with mean temperature between −0.5 °C `lower_temp` and 2 °C `upper_temp`and daily fluctuations below 3 °C `fluct_temp`, indicating the presence of a closed snow cover which fosters growth of microbial communities and myxamoebal activity (Schmidt and Lipson, 2004; Schnittler et al., 2015).
--	Yellow: days with a mean temperature above 2 °C `upper_temp` or daily fluctuations exceeding 3 °C `fluct_temp`, indicating exposure to wind and sun radiation without snow cover.
--	Red: days with mean temperature below −0.5 °C  `lower_temp`, which is potentially harmful for myxamoebae due to soil frost (Shchepin et al., 2014), but they can survive these days in encysted state, if temperatures do not decrease too fast.
+-	$${\color{green}Green}$$: days with mean temperature between −0.5 °C `lower_temp` and 2 °C `upper_temp`and daily fluctuations below 3 °C `fluct_temp`, indicating the presence of a closed snow cover which fosters growth of microbial communities and myxamoebal activity (Schmidt and Lipson, 2004; Schnittler et al., 2015).
+-	$${\color{yellow}Yellow}$$: days with a mean temperature above 2 °C `upper_temp` or daily fluctuations exceeding 3 °C `fluct_temp`, indicating exposure to wind and sun radiation without snow cover.
+-	$${\color{red}Red}$$: days with mean temperature below −0.5 °C  `lower_temp`, which is potentially harmful for myxamoebae due to soil frost (Shchepin et al., 2014), but they can survive these days in encysted state, if temperatures do not decrease too fast.
   
-The snow season (grey-blue bar) is defined by a starting condition (first period of four or more consecutive “green” days, `onset_days`) and an ending condition (the last “green” or “red” day of this winter before August  `cut_month`.
+The snow season ($${\color{#A1CAF1}grey-blue}$$ bar) is defined by a starting condition (first period of four or more consecutive “green” days, `onset_days`) and an ending condition (the last “green” or “red” day of this winter before August  `cut_month`.
 
 All the resulting statistics are limited within the snow season. Information outside of the snow seasons are excluded from the output tables.
 The TOMST TMS-4 data loggers provide three temperatures and one moisture read-outs (Hobo data logger provide only one temperature and one relative humidity read-out.). The temperature sensors are vertically separated by around 10 cm. By the placement instruction from the company the middle one is at surface level. Because of these numerous sensors the resulting output tables contain all 4 read-outs (or only 2 by HOBO loggers) as well as all calculations for each sensor separated in different columns and labeled accordingly to their respective sensors.
@@ -60,10 +60,10 @@ The TOMST TMS-4 data loggers provide three temperatures and one moisture read-ou
 Because different data loggers separated their data differently, the here presented scripts are separated depending on which data logger type was used by our group: 
 -	1st generation loggers:
 	-	HOBO U23 Pro v2 Temperature / Relative Humidity Data Logger (U23-001A) 
-	-->	`Snowcover_hobo.R`
+	&rarr;	`Snowcover_hobo.R`
 -	2nd generation loggers:  
 	-	TOMST TMS-4 Extreme 
-	--> 	`Snowcover_tomst_v2.R`
+	&rarr; 	`Snowcover_tomst_v2.R`
 
 
 ## Main function:

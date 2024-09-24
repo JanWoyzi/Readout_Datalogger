@@ -200,15 +200,15 @@ avg_conditions <- function(daily_averages, upper_temp = 2,
                                 no_snow_01b = Avg_temperature_01 < upper_temp & 
                                   Avg_temperature_01 > lower_temp &
                                   Fluct_temperature_01 > fluct_temp,
-                                suitable_condition_03 = Avg_temperature_03 < upper_temp & 
-                                  Avg_temperature_03 > lower_temp &
-                                  Fluct_temperature_03 < fluct_temp,
-                                suitable_condition_02 = Avg_temperature_02 < upper_temp & 
-                                  Avg_temperature_02 > lower_temp &
-                                  Fluct_temperature_02 < fluct_temp,
-                                suitable_condition_01 = Avg_temperature_01 < upper_temp & 
-                                  Avg_temperature_01 > lower_temp &
-                                  Fluct_temperature_01 < fluct_temp,
+                                suitable_condition_03 = Avg_temperature_03 <= upper_temp & 
+                                  Avg_temperature_03 >= lower_temp &
+                                  Fluct_temperature_03 <= fluct_temp,
+                                suitable_condition_02 = Avg_temperature_02 <= upper_temp & 
+                                  Avg_temperature_02 >= lower_temp &
+                                  Fluct_temperature_02 <= fluct_temp,
+                                suitable_condition_01 = Avg_temperature_01 <= upper_temp & 
+                                  Avg_temperature_01 >= lower_temp &
+                                  Fluct_temperature_01 <= fluct_temp,
                                 unsuitable_condition_03 = Avg_temperature_03 < lower_temp,
                                 unsuitable_condition_02 = Avg_temperature_02 < lower_temp,
                                 unsuitable_condition_01 = Avg_temperature_01 < lower_temp,
@@ -396,7 +396,7 @@ snow_seq <- function(data, temp, daily_averages, onset_days = 5){
 }
 
 # plot ----
-tomst_snow_plot <- function(overview, daily_averages){
+tomst_snow_plot <- function(overview, daily_averages, coeff_2nd_axis = 100){
   colors_snow= c("TRUE" = "#87aeed", "FALSE" = "gray") # color scheme for indicator system: snow period
   colors_label_snow = c("TRUE" = "snow period", "FALSE" = "no snow period") # labels for indicator system: snow period
   colors_cond = c("no_snow" = "gold", "suitable_condition" = "green", "unsuitable_condition" = "red", "no_snow02" = "blue") # color scheme for indicator system: snow conditions
@@ -405,7 +405,6 @@ tomst_snow_plot <- function(overview, daily_averages){
   min_temp <- min(overview[, which(grepl("Min. temperature_", colnames(overview)))])-1 # places the indicator system under the coldest temperature value
   dist_02 <- 2 # vertical placement in the plot to the first (T03) indicator segment in °C! 
   dist_01 <- 4 # vertical placement in the plot to the first (T03) indicator segment in °C! 
-  coeff_2nd_axis <- 10 # for scaling the second (moisture) axis
   
   titel_label <- c("Logger nr.", "Cover", "ID") # order is important
   titel_index <- na.omit(match(titel_label, names(overview)))
@@ -415,39 +414,39 @@ tomst_snow_plot <- function(overview, daily_averages){
   title <- glue("{title} - {from_year} to {to_year}")
   
   g<-ggplot(daily_averages, aes(x = Day)) +
-    geom_ribbon(aes(ymin = Min_moisture/coeff_2nd_axis, ymax = Max_moisture/coeff_2nd_axis), fill = "grey70") + # min/max ribbon around moisture graph
-    geom_ribbon(aes(ymin = Min_temperature_03, ymax = Max_temperature_03), fill = "grey70") + # min/max ribbon around temp graph 03
-    geom_ribbon(aes(ymin = Min_temperature_02, ymax = Max_temperature_02), fill = "grey70") + # min/max ribbon around temp graph 02
-    geom_ribbon(aes(ymin = Min_temperature_01, ymax = Max_temperature_01), fill = "grey70") + # min/max ribbon around temp graph 01
+    geom_ribbon(aes(ymin = Min_moisture/coeff_2nd_axis, ymax = Max_moisture/coeff_2nd_axis), fill = "grey50") + # min/max ribbon around moisture graph
+    geom_ribbon(aes(ymin = Min_temperature_03, ymax = Max_temperature_03), fill = "darkblue", alpha = 0.2) + # min/max ribbon around temp graph 03
+    geom_ribbon(aes(ymin = Min_temperature_02, ymax = Max_temperature_02), fill = "blue", alpha = 0.2) + # min/max ribbon around temp graph 02
+    geom_ribbon(aes(ymin = Min_temperature_01, ymax = Max_temperature_01), fill = "lightblue", alpha = 0.6) + # min/max ribbon around temp graph 01
     geom_vline(xintercept = cut_month_all$Day, linetype="dashed", color = "darkred", linewidth=1) + # Cut line of year
-    geom_segment(aes(x = Day, xend = Day, y = min_temp-1, yend = min_temp-.5, color = snow_period_03), linewidth = 1.2) + # snow period indicator for temp 03
+    geom_segment(aes(x = Day, xend = Day, y = min_temp-1, yend = min_temp-.5, color = snow_period_01), linewidth = 1.2) + # snow period indicator for temp 03
     geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_02-1, yend = min_temp-dist_02-.5, color = snow_period_02), linewidth = 1.2) + # snow period indicator for temp 02
-    geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_01-1, yend = min_temp-dist_01-.5, color = snow_period_01), linewidth = 1.2) + # snow period indicator for temp 01
+    geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_01-1, yend = min_temp-dist_01-.5, color = snow_period_03), linewidth = 1.2) + # snow period indicator for temp 01
     scale_color_manual(values = colors_snow, labels = colors_label_snow, name = "Snow period:") + # color scheme for snow period indicator for temp 03
     ggnewscale::new_scale_color() + # adding new color scale to the plot
-    geom_segment(aes(x = Day, xend = Day, y = min_temp-2, yend = min_temp-1, color = condition_03), linewidth = 1.2) + # snow condition indicator for temp 03
+    geom_segment(aes(x = Day, xend = Day, y = min_temp-2, yend = min_temp-1, color = condition_01), linewidth = 1.2) + # snow condition indicator for temp 03
     geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_02-2, yend = min_temp-dist_02-1, color = condition_02), linewidth = 1.2) + # snow condition indicator for temp 02
-    geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_01-2, yend = min_temp-dist_01-1, color = condition_01), linewidth = 1.2) + # snow condition indicator for temp 01
+    geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_01-2, yend = min_temp-dist_01-1, color = condition_03), linewidth = 1.2) + # snow condition indicator for temp 01
     scale_color_manual(values = colors_cond, labels = colors_label_cond, name = "Snow condition:") + # color scheme for snow condition indicator for temp 03
-    geom_line(aes(y = Avg_temperature_03),linewidth = 0.7, alpha = 0.7, color = "black", linetype="dashed") + # graph of temp 03
-    geom_line(aes(y = Avg_temperature_02),linewidth = 0.7, alpha = 0.7, color = "black", linetype="solid") + # graph of temp 02
-    geom_line(aes(y = Avg_temperature_01),linewidth = 0.7, alpha = 0.7, color = "black", linetype="dashed") + # graph of temp 01
+    geom_line(aes(y = Avg_temperature_03),linewidth = 0.7, alpha = 0.7, color = "darkblue", linetype="solid") + # graph of temp 03
+    geom_line(aes(y = Avg_temperature_02),linewidth = 0.7, alpha = 0.7, color = "blue", linetype="solid") + # graph of temp 02
+    geom_line(aes(y = Avg_temperature_01),linewidth = 0.7, alpha = 0.7, color = "lightblue", linetype="solid") + # graph of temp 01
     #geom_line(aes(color = condition_03), linewidth = 0.7, alpha = 0.7) + # snow conditions on the temp line
-    geom_line(aes(x = Day, y = Avg_moisture/coeff_2nd_axis), linewidth = 0.7, alpha = 0.7, color = "blue") + # Moisture line
+    geom_line(aes(x = Day, y = Avg_moisture/coeff_2nd_axis), linewidth = 0.7, alpha = 0.7, color = "black") + # Moisture line
     scale_x_datetime(date_breaks = "1 month", date_labels = "%Y/%m", guide = guide_axis(angle=45)) + # X-axis label
-    scale_y_continuous("Temperature in °C", sec.axis = sec_axis(~.*6.6, name = "Moisture in ?")) + # Y-axis titles
+    scale_y_continuous("Temperature in °C", sec.axis = sec_axis(~.*coeff_2nd_axis, name = "Moisture in ?")) + # Y-axis titles
     ggtitle(title) + # Titel
     xlab("Time") + # X-axis titel
     #ylim(c(-15,40)) + # y limitations
     annotate("text", x = as.POSIXct(daily_averages$Day[1], format = "%Y-%m-%d")-days(14), y = c(min_temp-1.25, min_temp-dist_02-1.25, min_temp-dist_01-1.25), 
-             label = c("T03:", "T02:", "T01:") , color="black", 
+             label = c("T01:", "T02:", "T03:") , color="black", 
              size=4 , angle=0) +
     theme(legend.position = "bottom",
           legend.box = "horizontal", 
-          axis.line.y.right = element_line(color = "blue"), 
-          axis.ticks.y.right = element_line(color = "blue"),
-          axis.text.y.right = element_text(color = "blue"), 
-          axis.title.y.right = element_text(color = "blue")) # overall theme for the plot
+          axis.line.y.right = element_line(color = "black"), 
+          axis.ticks.y.right = element_line(color = "black"),
+          axis.text.y.right = element_text(color = "black"), 
+          axis.title.y.right = element_text(color = "black")) # overall theme for the plot
   print(g)
 }
 
@@ -455,7 +454,7 @@ tomst_snow <- function(directory, ID_directory = NULL, upper_temp = 2,
                        lower_temp = -.5, fluct_temp = 3, 
                        fluct_para = "p2p", onset_days = 5, fahrenheit = FALSE, 
                        skip = 0, cut_month = 8, header = TRUE, sep_data = ";",
-                       sep_ID = ",", cover = NULL, Nr_label = NULL, plot = FALSE) {
+                       sep_ID = ",", cover = NULL, Nr_label = NULL, coeff_2nd_axis = 100, plot = FALSE) {
   out1 <- temp_prep(directory, ID_directory = ID_directory, sep_ID = sep_ID, cover = cover, Nr_label = Nr_label)
   data<-read_in_tomst(directory, sep_data = sep_data, header = header, skip = skip, fahrenheit = fahrenheit)
   res<-avg_dataframe(data = data, temp = out1, cover = cover, Nr_label = Nr_label, cut_month =  cut_month)
@@ -464,14 +463,14 @@ tomst_snow <- function(directory, ID_directory = NULL, upper_temp = 2,
   out2 <- avg_minmax(res$data, out2)
   res2 <- snow_seq(data = res$data, temp = res$output1, daily_averages = out2, onset_days = onset_days)
   if (plot == TRUE){
-    tomst_snow_plot(overview = res2$output1, daily_averages = res2$output2)
+    tomst_snow_plot(overview = res2$output1, daily_averages = res2$output2, coeff_2nd_axis = coeff_2nd_axis)
   }
   return(list(output1 = res2$output1, output2 = res2$output2))
 }
 
 # plot function to plot single plots for each winter season:
 
-tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL){
+tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL, coeff_2nd_axis = 100){
   
   if (is.null(selection)){
     print("all winters will be plotted")
@@ -491,7 +490,6 @@ tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL){
     min_temp <- min(overview_sel[, which(grepl("Min. temperature_", colnames(overview_sel)))])-1 # places the indicator system under the coldest temperature value
     dist_02 <- 2 # vertical placement in the plot to the first (T03) indicator segment in °C! 
     dist_01 <- 4 # vertical placement in the plot to the first (T03) indicator segment in °C! 
-    coeff_2nd_axis <- 10 # for scaling the second (moisture) axis
     
     titel_label <- c("Logger nr.", "Cover", "ID") # order is important
     titel_index <- na.omit(match(titel_label, names(overview_sel)))
@@ -501,39 +499,39 @@ tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL){
     title <- glue("{title} - {from_year} to {to_year}")
     
     g<-ggplot(daily_averages_sel, aes(x = Day)) +
-      geom_ribbon(aes(ymin = Min_moisture/coeff_2nd_axis, ymax = Max_moisture/coeff_2nd_axis), fill = "grey70") + # min/max ribbon around moisture graph
-      geom_ribbon(aes(ymin = Min_temperature_03, ymax = Max_temperature_03), fill = "grey70") + # min/max ribbon around temp graph 03
-      geom_ribbon(aes(ymin = Min_temperature_02, ymax = Max_temperature_02), fill = "grey70") + # min/max ribbon around temp graph 02
-      geom_ribbon(aes(ymin = Min_temperature_01, ymax = Max_temperature_01), fill = "grey70") + # min/max ribbon around temp graph 01
+      geom_ribbon(aes(ymin = Min_moisture/coeff_2nd_axis, ymax = Max_moisture/coeff_2nd_axis), fill = "grey50", alpha = 0.7) + # min/max ribbon around moisture graph
+      geom_ribbon(aes(ymin = Min_temperature_03, ymax = Max_temperature_03), fill = "darkblue", alpha = 0.2) + # min/max ribbon around temp graph 03
+      geom_ribbon(aes(ymin = Min_temperature_02, ymax = Max_temperature_02), fill = "blue", alpha = 0.2) + # min/max ribbon around temp graph 02
+      geom_ribbon(aes(ymin = Min_temperature_01, ymax = Max_temperature_01), fill = "lightblue", alpha = 0.6) + # min/max ribbon around temp graph 01
       geom_vline(xintercept = cut_month_all$Day, linetype="dashed", color = "darkred", linewidth=1) + # Cut line of year
-      geom_segment(aes(x = Day, xend = Day, y = min_temp-1, yend = min_temp-.5, color = snow_period_03), linewidth = 1.2) + # snow period indicator for temp 03
+      geom_segment(aes(x = Day, xend = Day, y = min_temp-1, yend = min_temp-.5, color = snow_period_01), linewidth = 1.2) + # snow period indicator for temp 03
       geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_02-1, yend = min_temp-dist_02-.5, color = snow_period_02), linewidth = 1.2) + # snow period indicator for temp 02
-      geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_01-1, yend = min_temp-dist_01-.5, color = snow_period_01), linewidth = 1.2) + # snow period indicator for temp 01
+      geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_01-1, yend = min_temp-dist_01-.5, color = snow_period_03), linewidth = 1.2) + # snow period indicator for temp 01
       scale_color_manual(values = colors_snow, labels = colors_label_snow, name = "Snow period:") + # color scheme for snow period indicator for temp 03
       ggnewscale::new_scale_color() + # adding new color scale to the plot
-      geom_segment(aes(x = Day, xend = Day, y = min_temp-2, yend = min_temp-1, color = condition_03), linewidth = 1.2) + # snow condition indicator for temp 03
+      geom_segment(aes(x = Day, xend = Day, y = min_temp-2, yend = min_temp-1, color = condition_01), linewidth = 1.2) + # snow condition indicator for temp 03
       geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_02-2, yend = min_temp-dist_02-1, color = condition_02), linewidth = 1.2) + # snow condition indicator for temp 02
-      geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_01-2, yend = min_temp-dist_01-1, color = condition_01), linewidth = 1.2) + # snow condition indicator for temp 01
+      geom_segment(aes(x = Day, xend = Day, y = min_temp-dist_01-2, yend = min_temp-dist_01-1, color = condition_03), linewidth = 1.2) + # snow condition indicator for temp 01
       scale_color_manual(values = colors_cond, labels = colors_label_cond, name = "Snow condition:") + # color scheme for snow condition indicator for temp 03
-      geom_line(aes(y = Avg_temperature_03),linewidth = 0.7, alpha = 0.7, color = "black", linetype="dashed") + # graph of temp 03
-      geom_line(aes(y = Avg_temperature_02),linewidth = 0.7, alpha = 0.7, color = "black", linetype="solid") + # graph of temp 02
-      geom_line(aes(y = Avg_temperature_01),linewidth = 0.7, alpha = 0.7, color = "black", linetype="dashed") + # graph of temp 01
+      geom_line(aes(y = Avg_temperature_03),linewidth = 0.7, alpha = 0.7, color = "darkblue", linetype="solid") + # graph of temp 03
+      geom_line(aes(y = Avg_temperature_02),linewidth = 0.7, alpha = 0.7, color = "blue", linetype="solid") + # graph of temp 02
+      geom_line(aes(y = Avg_temperature_01),linewidth = 0.7, alpha = 0.7, color = "lightblue", linetype="solid") + # graph of temp 01
       #geom_line(aes(color = condition_03), linewidth = 0.7, alpha = 0.7) + # snow conditions on the temp line
-      geom_line(aes(x = Day, y = Avg_moisture/coeff_2nd_axis), linewidth = 0.7, alpha = 0.7, color = "blue") + # Moisture line
+      geom_line(aes(x = Day, y = Avg_moisture/coeff_2nd_axis), linewidth = 0.7, alpha = 0.7, color = "black") + # Moisture line
       scale_x_datetime(date_breaks = "1 month", date_labels = "%Y/%m", guide = guide_axis(angle=45)) + # X-axis label
-      scale_y_continuous("Temperature in °C", sec.axis = sec_axis(~.*6.6, name = "Moisture in ?")) + # Y-axis titles
+      scale_y_continuous("Temperature in °C", sec.axis = sec_axis(~.*coeff_2nd_axis, name = "Moisture in ?")) + # Y-axis titles
       ggtitle(title) + # Titel
       xlab("Time") + # X-axis titel
       #ylim(c(-15,40)) + # y limitations
       annotate("text", x = as.POSIXct(daily_averages_sel$Day[1]- as.difftime(25, units="days"), format = "%Y-%m-%d"), y = c(min_temp-1.25, min_temp-dist_02-1.25, min_temp-dist_01-1.25), 
-               label = c("T03:", "T02:", "T01:") , color="black", 
+               label = c("T01:", "T02:", "T03:") , color="black", 
                size=4 , angle=0) +
       theme(legend.position = "bottom",
             legend.box = "horizontal", 
-            axis.line.y.right = element_line(color = "blue"), 
-            axis.ticks.y.right = element_line(color = "blue"),
-            axis.text.y.right = element_text(color = "blue"), 
-            axis.title.y.right = element_text(color = "blue")) # overall theme for the plot
+            axis.line.y.right = element_line(color = "black"), 
+            axis.ticks.y.right = element_line(color = "black"),
+            axis.text.y.right = element_text(color = "black"), 
+            axis.title.y.right = element_text(color = "black")) # overall theme for the plot
     print(g)
   }
 }

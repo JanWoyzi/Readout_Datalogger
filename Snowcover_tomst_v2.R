@@ -1,3 +1,4 @@
+
 # package requirements: ggplot2, lubridate, ggnewscale, dplyr
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(ggplot2, 
@@ -50,7 +51,7 @@ temp_prep <- function(directory, ID_directory = NULL, sep_ID = ",",
   t2<-strsplit(t1, ".csv")[[1]]
   id <- strsplit(t2, "_")[[1]][2]
   temp$ID <- id
-
+  
   # Logger label.: ----
   # Cover: ---- # what if no cover is wished to be used #TODO
   if (!is.null(ID_directory)) { # if a ID file is given
@@ -76,7 +77,7 @@ read_in_tomst <- function(directory, sep_data = ";", header = TRUE, skip = 0,
   data <- read.csv2(directory, sep = sep_data, header = header, skip = skip)[ , c(1,2,4:7)] # read only the columns in, containing relevant environmental information
   colnames(data) <- c("Index", "Time", "Temperature_03", "Temperature_02", "Temperature_01", "Moisture") # rename the column names !!! ID of HOBO unity gets lost!!!
   #* date format decision tree: ----
-
+  
   clock<-nchar(strsplit(data$Time, " ")[[1]][2]) # number of characters of time can tell if seconds is used or not
   # find the first element that is not a digit--> result should be the index of the date separator:
   index_date <- regexpr("\\D", strsplit(data$Time[1], " ")[[1]][1])
@@ -136,7 +137,7 @@ avg_dataframe <- function(data, temp, cover = NULL, Nr_label = NULL,
                                 paste(substr(year(daily_averages$Day), 3, 4), substr(year(daily_averages$Day) + 1, 3, 4), sep = "/"), 
                                 paste(substr(year(daily_averages$Day)-1, 3, 4), substr(year(daily_averages$Day), 3, 4), sep = "/"))
   daily_averages$Winter_id <- as.integer(factor(daily_averages$Winter))
-
+  
   # Winter ----
   data$Day <- as.POSIXct(data$Day, format = "%Y-%m-%d")
   data <- merge(x = data, y = daily_averages[ , c("Day", "Winter")], by = "Day", all.x=TRUE)
@@ -261,7 +262,8 @@ snow_seq <- function(data, temp, daily_averages, onset_days = 5){
       assign(snow_cover_sequence_varname, rle(daily_averages[daily_averages$Winter == w, colum_index]))
       
       # Break point if not all sequences fulfill all requirements!
-      if (all(get(snow_cover_sequence_varname)$values == "no_snow")) {
+      if (all(get(snow_cover_sequence_varname)$values == "no_snow") | 
+          all(get(snow_cover_sequence_varname)$lengths[which(get(snow_cover_sequence_varname)$values != "no_snow")] < onset_days)) {
         # all temp columns:
         temp_colname <- paste0("Nr. of suitable fragments ", i)
         temp[temp$Winter == w, temp_colname] <- 0 # fragments covered snow days within the snow cover period
@@ -437,7 +439,7 @@ tomst_snow_plot <- function(overview, daily_averages){
     ggtitle(title) + # Titel
     xlab("Time") + # X-axis titel
     #ylim(c(-15,40)) + # y limitations
-    annotate("text", x = as.POSIXct("2020-07-01", format = "%Y-%m-%d"), y = c(min_temp-1.25, min_temp-dist_02-1.25, min_temp-dist_01-1.25), 
+    annotate("text", x = as.POSIXct(daily_averages$Day[1], format = "%Y-%m-%d")-days(14), y = c(min_temp-1.25, min_temp-dist_02-1.25, min_temp-dist_01-1.25), 
              label = c("T03:", "T02:", "T01:") , color="black", 
              size=4 , angle=0) +
     theme(legend.position = "bottom",

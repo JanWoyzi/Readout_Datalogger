@@ -293,9 +293,10 @@ _…plotting all data for each winter with the optional selection of only specif
 
 ## How to use
 
+Run a file:
 ```R
 # define location to raw data:
-tomst_raw<-"path to file..."
+tomst_raw<-"path/to/file.csv"
 
 # use the main function to generate the two analyzed data frames, with default settings (except "plot"):
 res<-tomst_snow(tomst_raw, plot = T)
@@ -303,6 +304,25 @@ res<-tomst_snow(tomst_raw, plot = T)
 # access the two data frames:
 res$output1
 res$output2
+```
+
+Run an entire folder:
+```R
+# define folder location of raw data:
+files <- list.files("path/to/folder/", pattern = "data", full.names = T)
+
+# Loop through all files in the folder and append them in two data frames:
+for (i in files){
+  temp_res<-tomst_snow(i, plot = F)
+  if (i == files[1]){
+    res_output_1<-temp_res$output1
+    res_output_2<-temp_res$output2
+  }else{
+    res_output_1<-rbind(res_output_1, temp_res$output1)
+    res_output_2<-rbind(res_output_2, temp_res$output2)
+  }
+}
+
 ```
 
 Plot all winters together:

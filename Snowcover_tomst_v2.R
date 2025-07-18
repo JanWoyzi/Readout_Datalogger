@@ -1,11 +1,11 @@
-
 # package requirements: ggplot2, lubridate, ggnewscale, dplyr
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(ggplot2, 
                lubridate, 
                ggnewscale, 
                dplyr,
-               glue)
+               glue,
+               purrr)
 
 library(ggplot2)
 
@@ -402,6 +402,9 @@ tomst_snow_plot <- function(overview, daily_averages, coeff_2nd_axis = 100){
   colors_cond = c("no_snow" = "gold", "suitable_condition" = "green", "unsuitable_condition" = "red", "no_snow02" = "blue") # color scheme for indicator system: snow conditions
   colors_label_cond = c("no_snow" = "no snow", "suitable_condition" = "suitable condition", "unsuitable_condition" = "unsuitable condition", "no_snow02" = "no snow 02") # labels for indicator system: snow conditions
   cut_month_all <- aggregate(Day ~ Winter, daily_averages, min) # which dates the years are cut for geom_vline()
+  if (cut_month_all$Day[1] == daily_averages$Day[1]) {
+    cut_month_all <- cut_month_all[-1, ]                             # Drop the first row
+  }
   min_temp <- min(overview[, which(grepl("Min. temperature_", colnames(overview)))])-1 # places the indicator system under the coldest temperature value
   dist_02 <- 2 # vertical placement in the plot to the first (T03) indicator segment in °C! 
   dist_01 <- 4 # vertical placement in the plot to the first (T03) indicator segment in °C! 
@@ -439,7 +442,7 @@ tomst_snow_plot <- function(overview, daily_averages, coeff_2nd_axis = 100){
     xlab("Time") + # X-axis titel
     #ylim(c(-15,40)) + # y limitations
     annotate("text", x = as.POSIXct(daily_averages$Day[1], format = "%Y-%m-%d")-days(14), y = c(min_temp-1.25, min_temp-dist_02-1.25, min_temp-dist_01-1.25), 
-             label = c("T01:", "T02:", "T03:") , color="black", 
+             label = c("T01:", "T02:", "T03:") , color=c("lightblue", "blue", "darkblue"), 
              size=4 , angle=0) +
     theme(legend.position = "bottom",
           legend.box = "horizontal", 
@@ -455,6 +458,7 @@ tomst_snow <- function(directory, ID_directory = NULL, upper_temp = 2,
                        fluct_para = "p2p", onset_days = 5, fahrenheit = FALSE, 
                        skip = 0, cut_month = 8, header = TRUE, sep_data = ";",
                        sep_ID = ",", cover = NULL, Nr_label = NULL, coeff_2nd_axis = 100, plot = FALSE) {
+  print(directory)
   out1 <- temp_prep(directory, ID_directory = ID_directory, sep_ID = sep_ID, cover = cover, Nr_label = Nr_label)
   data<-read_in_tomst(directory, sep_data = sep_data, header = header, skip = skip, fahrenheit = fahrenheit)
   res<-avg_dataframe(data = data, temp = out1, cover = cover, Nr_label = Nr_label, cut_month =  cut_month)
@@ -470,14 +474,14 @@ tomst_snow <- function(directory, ID_directory = NULL, upper_temp = 2,
 
 # plot function to plot single plots for each winter season:
 
-tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL, coeff_2nd_axis = 100){
+tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL, coeff_2nd_axis = 100, path = NULL, filename = NULL){
   
   if (is.null(selection)){
     print("all winters will be plotted")
     winter_count = max(daily_averages$Winter_id)
   } else {
     print(selection)
-    winter_count = selection
+    winter_count = intersect(selection, unique(daily_averages$Winter_id)) 
   }
   for (x in winter_count) {
     overview_sel <- overview[x,]
@@ -487,6 +491,9 @@ tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL, coef
     colors_cond = c("no_snow" = "gold", "suitable_condition" = "green", "unsuitable_condition" = "red", "no_snow02" = "blue") # color scheme for indicator system: snow conditions
     colors_label_cond = c("no_snow" = "no snow", "suitable_condition" = "suitable condition", "unsuitable_condition" = "unsuitable condition", "no_snow02" = "no snow 02") # labels for indicator system: snow conditions
     cut_month_all <- aggregate(Day ~ Winter, daily_averages_sel, min) # which dates the years are cut for geom_vline()
+    if (cut_month_all$Day[1] == daily_averages_sel$Day[1]) {
+      cut_month_all <- cut_month_all[-1, ]                             # Drop the first row
+    }
     min_temp <- min(overview_sel[, which(grepl("Min. temperature_", colnames(overview_sel)))])-1 # places the indicator system under the coldest temperature value
     dist_02 <- 2 # vertical placement in the plot to the first (T03) indicator segment in °C! 
     dist_01 <- 4 # vertical placement in the plot to the first (T03) indicator segment in °C! 
@@ -524,7 +531,7 @@ tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL, coef
       xlab("Time") + # X-axis titel
       #ylim(c(-15,40)) + # y limitations
       annotate("text", x = as.POSIXct(daily_averages_sel$Day[1]- as.difftime(25, units="days"), format = "%Y-%m-%d"), y = c(min_temp-1.25, min_temp-dist_02-1.25, min_temp-dist_01-1.25), 
-               label = c("T01:", "T02:", "T03:") , color="black", 
+               label = c("T01:", "T02:", "T03:") , color=c("lightblue", "blue", "darkblue"), 
                size=4 , angle=0) +
       theme(legend.position = "bottom",
             legend.box = "horizontal", 
@@ -533,5 +540,13 @@ tomst_snow_plot_sep <- function(overview, daily_averages, selection = NULL, coef
             axis.text.y.right = element_text(color = "black"), 
             axis.title.y.right = element_text(color = "black")) # overall theme for the plot
     print(g)
+    if (!is.null(path)){
+      print("saving plot")
+      if (!is.null(filename)) {
+        ggsave(filename = glue("{filename}_{title}.jpg"), path = path)
+      }else{
+        ggsave(filename = glue("{title}.jpg"), path = path)
+      }
+    }
   }
 }

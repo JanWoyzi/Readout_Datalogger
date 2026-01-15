@@ -334,7 +334,7 @@ todo! add plot
 
 <details>
 <summary>
-plot
+![Examplary plot of a TOMST datalogger with multiple winters.](/images/Datalogger_tomst_all.png)
 </summary>
 </details>
 

@@ -149,7 +149,7 @@ Per temperature sensor 37 columns will be generated presenting average informati
 These are the internal functions that the main function uses to analyze the raw files and generate the two output data frames. The internal function are used in order  of appearance.
 
 ```R
-temp-prep(directory, ID_directory = NULL, sep_ID = ",", cover = NULL, Nr_label = NULL)
+temp_prep(directory, ID_directory = NULL, sep_ID = ",", cover = NULL, Nr_label = NULL)
 ```
 
 _…creating a template data frame filled with the ID number and, if possible, cover type and alternative unique name._

@@ -348,8 +348,8 @@ files <- list.files("path/to/folder/", pattern = "data", full.names = TRUE)
 temp_results <- lapply(files[1:3], tomst_snow, plot = FALSE)
 
 # Extract and combine the outputs
-res_output_1 <- do.call(rbind, lapply(temp_results, `[[`, "output1"))
-res_output_2 <- do.call(rbind, lapply(temp_results, `[[`, "output2"))
+results_output_1 <- do.call(rbind, lapply(temp_results, `[[`, "output1"))
+results_output_2 <- do.call(rbind, lapply(temp_results, `[[`, "output2"))
 ```
 
 Plot all winters together:

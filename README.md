@@ -141,6 +141,81 @@ Per temperature sensor 38 columns will be generated presenting overview informat
 |95222856 |23/24  |                            1|                           0|                              0|      130|     130|        0|        0|     130|   100.00000|     0.000000|           0|               0.750|                            1|                           0|                              0|      154|     154|        0|        0|     154|   100.00000|     0.000000|    0.000000|              0.8125|                            3|                           3|                              3|      160|     162|       28|       17|     207|    78.26087|     13.52657|     8.21256|             -4.3750|
 |95222856 |24/25  |                            1|                           0|                              0|      115|     115|        0|        0|     115|   100.00000|     0.000000|           0|               0.625|                            1|                           0|                              0|      134|     134|        0|        0|     134|   100.00000|     0.000000|    0.000000|              0.2500|                           12|                          10|                             10|       92|     118|       93|       29|     240|    49.16667|     38.75000|    12.08333|             -8.1875|
 
+>	**ID:**		Identification number of the data logger
+
+>	**Winter:**		Winter date
+       
+>	**Nr. of suitable fragments 03:** 	Provides how many fragments of "suitable" conditions exist within the snow period
+
+>	**Nr. of no snow fragments 03:** 	Provides how many fragments of "no snow" conditions exist within the snow period
+
+>	**Nr. of unsuitable fragments 03:** 	Provides how many fragments of "unsuitable" conditions exist within the snow period
+
+>	**lcd_s_03:**
+
+>	**td_s_03:**
+
+>	**td_ns_03:**
+
+>	**td_ud_03:**
+             
+>	**d_ss_03:**
+                
+>	**rel. s d_03:**
+                
+>	**rel. ns d_03:**
+             
+>	**rel. u d_03:**
+              
+>	**Min. temperature_03:**
+            
+>	**Nr. of suitable fragments 02:**
+ 
+>	**Nr. of no snow fragments 02:**
+
+>	**Nr. of unsuitable fragments 02:**
+ 
+>	**lcd_s_02:**
+                 
+>	**td_s_02:**
+                  
+>	**td_ns_02:**
+                   
+>	**td_ud_02:**
+                 
+>	**d_ss_02:**
+                  
+>	**rel. s d_02:**
+                  
+>	**rel. ns d_02:**
+                
+>	**rel. u d_02:**
+               
+>	**Min. temperature_02:**
+            
+>	**Nr. of suitable fragments 01:**
+
+>	**Nr. of no snow fragments 01:**
+
+>	**Nr. of unsuitable fragments 01:**
+
+>	**lcd_s_01:**
+
+>	**td_s_01:**
+                 
+>	**td_ns_01:**
+                   
+>	**td_ud_01:**
+                
+>	**d_ss_01:**
+                 
+>	**rel. s d_01:**
+                   
+>	**rel. ns d_01:**
+              
+>	**rel. u d_01:**
+              
+>	**Min. temperature_01:**      
 
 #### **Output2:**
 Per temperature sensor 37 columns will be generated presenting average information per day.
@@ -153,6 +228,80 @@ Per temperature sensor 37 columns will be generated presenting average informati
 |2022-09-03 |           23.93620|           24.08854|           23.94857|     390.3229|95222856 |22/23  |         1|               0.9375|               0.8750|               0.9375|TRUE        |TRUE        |TRUE        |FALSE       |FALSE       |FALSE       |FALSE                 |FALSE                 |FALSE                 |FALSE                   |FALSE                   |FALSE                   |no_snow      |no_snow      |no_snow      |            24.3750|            24.5000|            24.3750|          393|            23.4375|            23.6250|            23.4375|          388|FALSE          |FALSE          |FALSE          |
 |2022-09-04 |           23.95117|           24.11263|           23.98177|     390.7188|95222856 |22/23  |         1|               1.0625|               1.0625|               1.1250|TRUE        |TRUE        |TRUE        |FALSE       |FALSE       |FALSE       |FALSE                 |FALSE                 |FALSE                 |FALSE                   |FALSE                   |FALSE                   |no_snow      |no_snow      |no_snow      |            24.4375|            24.6250|            24.5000|          393|            23.3750|            23.5625|            23.3750|          388|FALSE          |FALSE          |FALSE          |
 |2022-09-05 |           24.17904|           24.34310|           24.26562|     379.5104|95222856 |22/23  |         1|               1.0625|               1.0625|               1.2500|TRUE        |TRUE        |TRUE        |FALSE       |FALSE       |FALSE       |FALSE                 |FALSE                 |FALSE                 |FALSE                   |FALSE                   |FALSE                   |no_snow      |no_snow      |no_snow      |            24.8125|            24.9375|            25.0000|          392|            23.7500|            23.8750|            23.7500|          369|FALSE          |FALSE          |FALSE          |
+
+>	**Day:**                     
+
+>	**Avg_temperature_03:**      
+
+>	**Avg_temperature_02:**     
+
+>	**Avg_temperature_01:**      
+
+>	**Avg_moisture:**            
+
+>	**ID:**                     
+
+>	**Winter:**                 
+
+>	**Winter_id:**               
+
+>	**Fluct_temperature_03:**   
+
+>	**Fluct_temperature_02:**    
+
+>	**Fluct_temperature_01:**    
+
+>	**no_snow_03a:**            
+
+>	**no_snow_02a:**             
+
+>	**no_snow_01a:**             
+
+>	**no_snow_03b:**            
+
+>	**no_snow_02b:**             
+
+>	**no_snow_01b:**             
+
+>	**suitable_condition_03:**  
+
+>	**suitable_condition_02:**   
+
+>	**suitable_condition_01:**   
+
+>	**unsuitable_condition_03:**
+
+>	**unsuitable_condition_02:** 
+
+>	**unsuitable_condition_01:** 
+
+>	**condition_03:**           
+
+>	**condition_02:**            
+
+>	**condition_01:**            
+
+>	**Max_temperature_03:**     
+
+>	**Max_temperature_02:**      
+
+>	**Max_temperature_01:**      
+
+>	**Max_moisture:**          
+
+>	**Min_temperature_03:**      
+
+>	**Min_temperature_02:**      
+
+>	**Min_temperature_01:**     
+
+>	**Min_moisture:**           
+
+>	**snow_period_03:**          
+
+>	**snow_period_02:**         
+
+>	**snow_period_01:**
 
 </details>
 

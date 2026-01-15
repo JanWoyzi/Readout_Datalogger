@@ -338,6 +338,19 @@ for (i in files){
 }
 
 ```
+Alternative approach for multiple files:
+
+```R
+# define folder location of raw data:
+files <- list.files("path/to/folder/", pattern = "data", full.names = TRUE)
+
+# Apply the `tomst_snow` function to the first three files
+temp_results <- lapply(files[1:3], tomst_snow, plot = FALSE)
+
+# Extract and combine the outputs
+res_output_1 <- do.call(rbind, lapply(temp_results, `[[`, "output1"))
+res_output_2 <- do.call(rbind, lapply(temp_results, `[[`, "output2"))
+```
 
 Plot all winters together:
 

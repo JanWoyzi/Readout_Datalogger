@@ -330,23 +330,26 @@ Plot all winters together:
 ```R
 tomst_snow_plot(overview = res$output1, daily_averages = res$output2)
 ```
-todo! add plot
-
 <details>
 <summary>
-![Examplary plot of a TOMST datalogger with multiple winters.](/images/Datalogger_tomst_all.png)
+Show plot
 </summary>
+	
+![Examplary plot of a TOMST datalogger with multiple winters.](/images/Datalogger_tomst_all.png)
 </details>
 
 Plot selected winters separated:
 
 ```R
-tomst_snow_plot_sep(overview = res$output1, daily_averages = res$output2, selection = c(1,3,5))
+tomst_snow_plot_sep(overview = res$output1, daily_averages = res$output2, selection = c(1,2,3))
 ```
-todo! add plot
 
 <details>
 <summary>
-plot
+Show plots
 </summary>
+
+![Examplary plot of a TOMST datalogger with the 1st winter.](/images/Datalogger_tomst_1.png)
+![Examplary plot of a TOMST datalogger with the 2nd winter.](/images/Datalogger_tomst_2.png)
+![Examplary plot of a TOMST datalogger with the 3rd winter.](/images/Datalogger_tomst_3.png)
 </details>

@@ -132,12 +132,12 @@ _establish snow period and daily snow conditions per winter, plot result in one 
 <details>
 <summary>Output description:</summary>
 	
-#### Output1:
-Per temperature sensor n columns will be generated.
+#### **Output1:**
+Per temperature sensor 38 columns will be generated presenting overview information.
 
 
-#### Output2:
-Per temperature sensor n columns will be generated.
+#### **Output2:**
+Per temperature sensor 37 columns will be generated presenting average information per day.
 
 
 </details>

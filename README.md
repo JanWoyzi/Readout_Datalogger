@@ -296,14 +296,14 @@ _…plotting all data for each winter with the optional selection of only specif
 Run a file:
 ```R
 # define location to raw data:
-tomst_raw<-"path/to/file.csv"
+tomst_rawdata<-"path/to/file.csv"
 
 # use the main function to generate the two analyzed data frames, with default settings (except "plot"):
-res<-tomst_snow(tomst_raw, plot = T)
+result<-tomst_snow(tomst_rawdata, plot = T)
 
 # access the two data frames:
-res$output1
-res$output2
+result$output1
+result$output2
 ```
 
 Run an entire folder:
@@ -313,13 +313,13 @@ files <- list.files("path/to/folder/", pattern = "data", full.names = T)
 
 # Loop through all files in the folder and append them in two data frames:
 for (i in files){
-  temp_res<-tomst_snow(i, plot = F)
+  temp_result<-tomst_snow(i, plot = F)
   if (i == files[1]){
-    res_output_1<-temp_res$output1
-    res_output_2<-temp_res$output2
+    result_output_1<-temp_result$output1
+    result_output_2<-temp_result$output2
   }else{
-    res_output_1<-rbind(res_output_1, temp_res$output1)
-    res_output_2<-rbind(res_output_2, temp_res$output2)
+    result_output_1<-rbind(result_output_1, temp_result$output1)
+    result_output_2<-rbind(result_output_2, temp_result$output2)
   }
 }
 
@@ -341,7 +341,7 @@ Show plot
 Plot selected winters separated:
 
 ```R
-tomst_snow_plot_sep(overview = res$output1, daily_averages = res$output2, selection = c(1,2,3))
+tomst_snow_plot_sep(overview = result$output1, daily_averages = result$output2, selection = c(1,2,3))
 ```
 
 <details>
